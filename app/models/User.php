@@ -52,7 +52,7 @@ class User extends Database
         }
     }
 
-    public function getUser($id)
+    public function findById($id)
     {
         $query = "SELECT * FROM usercreds_tb WHERE user_id = :user_id";
 
