@@ -12,6 +12,27 @@ class User extends Database
         $this->conn = $this->connect();
     }
 
+    public function registerUser($firstname, $lastname, $email, $password)
+    {
+        try {
+            $hashed = password_hash($password, PASSWORD_DEFAULT);
+
+            $query = "INSERT INTO usercreds_tb (firstname, lastname, email, password) VALUES (:fname, :lname, :email, :passw)";
+
+            $stmt = $this->conn->prepare($query);
+
+            $stmt->bindParam(':fname', $firstname);
+            $stmt->bindParam(':lname', $lastname);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':passw', $hashed);
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+
+            return false;
+        }
+
+    }
+
     public function getAllUsers()
     {
         $query = "SELECT * FROM usercreds_tb";
